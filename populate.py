@@ -15,9 +15,6 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SPREADSHEET_ID = "1mYjMrgk00FdvQ_SGBdPBSFcdTuYWzUpzKBmnJMgvoS8"
 SAMPLE_RANGE_NAME = "Sheet1!A2:D2"
 
-def populate_linkedin():
-
-
 
 def main():
   
