@@ -1,21 +1,21 @@
-import undetected_chromedriver as uc
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-# Set up Chrome options
-options = Options()
-options.add_argument("--headless")  # Run headless (no UI)
+driver = webdriver.Chrome()
 
-# Use Service to pass the executable path
-service = Service(ChromeDriverManager().install())
+driver.get("https://www.selenium.dev/selenium/web/web-form.html")
 
-# Initialize the undetected Chrome driver
-driver = uc.Chrome(service=service, options=options)
+title = driver.title
 
-# Example: Open a page
-driver.get("https://www.linkedin.com/jobs/")
-print(driver.title)
+driver.implicitly_wait(0.5)
 
-# Close the driver after usage
+text_box = driver.find_element(by=By.NAME, value="my-text")
+submit_button = driver.find_element(by=By.CSS_SELECTOR, value="button")
+
+text_box.send_keys("Selenium")
+submit_button.click()
+
+message = driver.find_element(by=By.ID, value="message")
+text = message.text
+
 driver.quit()
