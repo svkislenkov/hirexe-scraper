@@ -6,7 +6,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-import scraper
+import json
 
 # Allows read + write
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
@@ -46,19 +46,32 @@ def main():
         .get(spreadsheetId=SPREADSHEET_ID, range=SAMPLE_RANGE_NAME)
         .execute()
     )
-    values = [
-        ["Hirexe", "Software Engineer", "Yes", "100k"]
-    ]
-
-    body = {"values": values}
+    
 
     # Write to spreadsheet (A2 through D2)
-    sheet.values().update(
+
+    
+
+    # Load the JSON file
+    with open('listings.json', 'r') as json_file:
+        job_listings = json.load(json_file)
+
+    # Loop through each job listing and print details
+    for i, job in enumerate(job_listings):
+      values = [
+        [job['company'], job['title'], "Yes", job['salary_benefits']]
+      ]
+
+      body = {"values": values}
+      myRange = f'Sheet1!A{i+2}:D{i+2}'
+      
+      sheet.values().update(
         spreadsheetId=SPREADSHEET_ID,
-        range="Sheet1!A2:D2",  # Specify A2 through D2
+        range=myRange,
         valueInputOption="RAW",
         body=body,
-    ).execute()
+      ).execute()
+      
   except HttpError as err:
     print(err)
 

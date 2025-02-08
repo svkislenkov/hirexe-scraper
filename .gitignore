@@ -3,3 +3,4 @@ token.json
 linkedin
 env/
 __pycache__/
+chromedriver
